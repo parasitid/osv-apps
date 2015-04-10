@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+MAJOR=2
+VERSION=${MAJOR}.1.5
+
+dir=vert.x-$VERSION
+archive=$dir.tar.gz
+
+mkdir -p upstream
+pushd upstream
+wget https://bintray.com/artifact/download/vertx/downloads/${archive}
+tar zxvf $archive
+
+pushd $dir
+for p in $(find ../../patches/perf/ -name '*.patch' | sort); do
+    echo "Applying $p"
+    patch -p1 < $p
+done
+popd
+
+popd
+
+mkdir ROOTFS
+mkdir -p ROOTFS/usr/vertx
+mv upstream/$dir/* ROOTFS/usr/vertx

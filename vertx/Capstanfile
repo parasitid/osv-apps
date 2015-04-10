@@ -1,0 +1,11 @@
+base: cloudius/osv-openjdk
+
+cmdline: >
+  /java.so
+  -classpath /usr/vertx/conf:/usr/vertx/lib/*
+  -Djava.util.logging.config.file=/usr/vertx/conf/logging.properties
+  -Dvertx.home=/usr/vertx
+  org.vertx.java.platform.impl.cli.Starter
+  -ha
+
+build: make
